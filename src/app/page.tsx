@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import UploadDoc from "./othercomp/UploadDoc";
 import BizForm from "./othercomp/temp";
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 
 
 const formSchema = z.object({
@@ -63,8 +64,13 @@ export default function Home() {
 
       // <FormGenerator />
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <BizForm />
+    <main className="flex min-h-screen flex-col items-center justify-between p-3">
+      <MaxWidthWrapper>
+      <header className="text-black py-10 text-left">
+        <h1 className="text-4xl font-bold">Self-Review Tool for Tax</h1>
+      </header>
+      <UploadDoc />
+      </MaxWidthWrapper>
     </main>
   );
 }

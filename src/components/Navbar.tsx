@@ -43,7 +43,7 @@ const Navbar = () => {
               </Link>
 
               <Link
-                  href="#whytuition"
+                  href=""
                   className={cn(buttonVariants({
                     size: "lg",
                     variant: "ghost",
@@ -54,7 +54,7 @@ const Navbar = () => {
               </Link>
 
               <Link
-                  href="#whytuition"
+                  href=""
                   className={cn(buttonVariants({
                     size: "lg",
                     variant: "ghost",
@@ -70,9 +70,9 @@ const Navbar = () => {
               
 
               <UserAccountNav
-                    name="Beverly Guo"
-                    email="beverlyyb@pwc.com"
-                    imageUrl="/beverlyguo.jpeg"
+                    name="Anya Forger"
+                    email="anya.forger@pwc.com"
+                    imageUrl="/anya.jpg"
                   />
               {/* <Link
                   href="#getstarted"
