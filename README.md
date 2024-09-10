@@ -1,3 +1,8 @@
+## Step 0: .env
+Create a .env file with the variable: OPENAI_API_KEY="<your openai key>"
+
+Follow the instructions below, particularly npm run dev. 
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
