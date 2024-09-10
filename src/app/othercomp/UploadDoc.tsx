@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Cloud, File, Check, ChevronsUpDown } from "lucide-react";
+import { Cloud, File as LucideFile, Check, ChevronsUpDown } from "lucide-react";
 import LoaderSpinner from "@/components/LoaderSpinner";
 import { cn } from "@/lib/utils";
 import * as z from "zod";
@@ -331,7 +331,7 @@ const UploadDoc = () => {
                     {document  && document instanceof File ? (
                       <div className="max-w-xs bg-white flex items-center rounded-md overflow-hidden outline outline-[1px] outline-zinc-200 divide-x divide-zinc-200">
                         <div className="px-3 py-2 h-full grid place-items-center">
-                          <File className="h-4 w-4 text-blue-500" />
+                          <LucideFile className="h-4 w-4 text-blue-500" />
                         </div>
                         <div className="px-3 py-2 h-full text-sm truncate">
                           {(document as File)?.name}
