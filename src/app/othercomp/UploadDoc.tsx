@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Cloud, File, Check, ChevronsUpDown } from "lucide-react";
 import LoaderSpinner from "@/components/LoaderSpinner";
-import UploadButton from "./UploadButton";
 import { cn } from "@/lib/utils";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
