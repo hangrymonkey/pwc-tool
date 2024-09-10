@@ -17,7 +17,7 @@ const BubbleInput = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8">
+    <div className=" mt-8">
       {/* Input field */}
       <Input
         type="text"
@@ -25,7 +25,7 @@ const BubbleInput = () => {
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Type something and press Enter"
-        className="mb-4"
+        className="mb-4 max-w-md"
       />
 
       {/* Render bubbles below */}

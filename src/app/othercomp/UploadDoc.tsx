@@ -25,7 +25,7 @@ import {
   Select,
 } from "@/components/ui/select";
 
-import { Checkbox } from "@/components/ui/checkbox"
+import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import {
@@ -119,7 +119,6 @@ const UploadDoc = () => {
   const [error, setError] = useState<string>("");
   const [generatedContent, setGeneratedContent] = useState<string>("");
 
-
   const onSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
     values: z.infer<typeof formSchema>
@@ -127,7 +126,7 @@ const UploadDoc = () => {
     e.preventDefault();
     console.log("onsubmit");
     if (!document) {
-      setError("Please upload the document first");
+      setError("Please upload the document first before submitting.");
       return;
     }
     setIsLoading(true);
@@ -136,7 +135,7 @@ const UploadDoc = () => {
     formData.append("pdf", document as Blob);
     formData.append("clientName", values.clientName);
     formData.append("bizUnit", values.bizUnit);
-    formData.append("industryType", values.industryType); 
+    formData.append("industryType", values.industryType);
 
     try {
       const res = await fetch("/api/generate", {
@@ -144,13 +143,10 @@ const UploadDoc = () => {
         body: formData,
       });
 
-      
-
       if (res.status === 200) {
-        const result = await res.json(); 
-        // TODO: this 
-        console.log(result?.receivedData?.kwargs?.content);  
-        setGeneratedContent(result?.receivedData?.kwargs?.content);
+        const result = await res.json();
+        console.log(result?.receivedData?.kwargs?.content);
+        setGeneratedContent(result?.receivedData?.kwargs?.content); 
       }
     } catch (e) {
       console.log("error while generating", e);
@@ -161,16 +157,8 @@ const UploadDoc = () => {
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent default form submission behavior
-    console.log("Hello");
     form.handleSubmit((values) => onSubmit(e, values))(); // Pass both event `e` and form `values`
   };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();  // Prevent the form from submitting on Enter
-    }
-  };
-
 
   return (
     <div className="place-items-center">
@@ -182,7 +170,9 @@ const UploadDoc = () => {
             name="bizUnit"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel>Which Business Unit (BU) are you in?</FormLabel>
+                <FormLabel className="block text-2xl font-semibold mb-4">
+                  Which Business Unit (BU) are you in?
+                </FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -191,25 +181,28 @@ const UploadDoc = () => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="corporatetax" />
+                        <RadioGroupItem
+                          value="corporatetax"
+                          className="w-5 h-5"
+                        />
                       </FormControl>
-                      <FormLabel className="font-normal">
+                      <FormLabel className="font-normal text-lg text-black">
                         Corporate income tax (CIT)/ Corporate tax advisory (CTA)
                       </FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="gst" />
+                        <RadioGroupItem value="gst" className="w-5 h-5" />
                       </FormControl>
-                      <FormLabel className="font-normal">
+                      <FormLabel className="font-normal text-lg text-black">
                         Goods and Services Tax (GST)
                       </FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="tp" />
+                        <RadioGroupItem value="tp" className="w-5 h-5" />
                       </FormControl>
-                      <FormLabel className="font-normal">
+                      <FormLabel className="font-normal text-lg text-black">
                         Transfer Pricing (TP)
                       </FormLabel>
                     </FormItem>
@@ -225,10 +218,16 @@ const UploadDoc = () => {
             name="clientName"
             render={({ field }) => {
               return (
-                <FormItem>
-                  <FormLabel>Client Name</FormLabel>
+                <FormItem className="space-y-3 mt-10">
+                  <FormLabel className="block text-2xl font-semibold mb-4">
+                    Client Name
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. XYZ Company" {...field} />
+                    <Input
+                      placeholder="e.g. XYZ Company"
+                      {...field}
+                      className="w-1/3"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -240,8 +239,10 @@ const UploadDoc = () => {
             control={form.control}
             name="industryType"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Which industry is your client in? </FormLabel>
+              <FormItem className="flex flex-col space-y-1 mt-10">
+                <FormLabel className="block text-2xl font-semibold mb-4">
+                  Which industry is your client in?{" "}
+                </FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -249,7 +250,7 @@ const UploadDoc = () => {
                         variant="outline"
                         role="combobox"
                         className={cn(
-                          "w-[200px] justify-between",
+                          "max-w-md justify-between",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -263,11 +264,13 @@ const UploadDoc = () => {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
+                  <PopoverContent className="w-[500px] p-0">
                     <Command>
                       <CommandInput placeholder="Search Industry..." />
                       <CommandList>
-                        <CommandEmpty>Industry/ Sector is not listed. </CommandEmpty>
+                        <CommandEmpty>
+                          Industry/ Sector is not listed.{" "}
+                        </CommandEmpty>
                         <CommandGroup>
                           {industryTypes.map((industryType) => (
                             <CommandItem
@@ -301,77 +304,122 @@ const UploadDoc = () => {
             )}
           />
 
-          <div className="border h-40 m-4 border-dashed border-gray-300 rounded-lg">
-            <div className="flex items-center justify-center h-full w-full">
-              <label
-                htmlFor="document"
-                className="flex flex-col items-center justify-center w-full h-full rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
-              >
-                <div className="flex flex-col items-center justify-center h-full w-full">
-                  <p>
-                    <br />
-                    <br />
-                  </p>
-                  <Cloud className="h-6 w-6 text-zinc-500 mb-2" />
-                  <p className="mb-2 text-sm text-zinc-700">
-                    <span className="font-semibold text-center">
-                      Click to upload
-                    </span>{" "}
-                    or drag and drop
-                  </p>
+          <div className="flex flex-col space-y-1 mt-10">
+            <h1 className="block text-xl font-semibold mb-4">
+              Please upload relevant documents (e.g. financial statement,
+              service agreements, prospectus, etc.)
+            </h1>
 
-                  {document && document?.name ? (
-                    <div className="max-w-xs bg-white flex items-center rounded-md overflow-hidden outline outline-[1px] outline-zinc-200 divide-x divide-zinc-200">
-                      <div className="px-3 py-2 h-full grid place-items-center">
-                        <File className="h-4 w-4 text-blue-500" />
+            <div className="border h-40 m-4 border-dashed border-gray-300 rounded-lg">
+              <div className="flex items-center justify-center h-full w-full">
+                <label
+                  htmlFor="document"
+                  className="flex flex-col items-center justify-center w-full h-full rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                >
+                  <div className="flex flex-col items-center justify-center h-full w-full">
+                    <p>
+                      <br />
+                      <br />
+                    </p>
+                    <Cloud className="h-6 w-6 text-zinc-500 mb-2" />
+                    <p className="mb-2 text-sm text-zinc-700">
+                      <span className="font-semibold text-center">
+                        Click to upload
+                      </span>{" "}
+                      or drag and drop
+                    </p>
+
+                    {document && document?.name ? (
+                      <div className="max-w-xs bg-white flex items-center rounded-md overflow-hidden outline outline-[1px] outline-zinc-200 divide-x divide-zinc-200">
+                        <div className="px-3 py-2 h-full grid place-items-center">
+                          <File className="h-4 w-4 text-blue-500" />
+                        </div>
+                        <div className="px-3 py-2 h-full text-sm truncate">
+                          {document.name}
+                        </div>
                       </div>
-                      <div className="px-3 py-2 h-full text-sm truncate">
-                        {document.name}
-                      </div>
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <input
-                  type="file"
-                  id="document"
-                  className="relative block w-full h-full z-50 opacity-0"
-                  onChange={(e) => setDocument(e?.target?.files?.[0])}
-                />
-              </label>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <input
+                    type="file"
+                    id="document"
+                    className="relative block w-full h-full z-50 opacity-0"
+                    onChange={(e) => setDocument(e?.target?.files?.[0])}
+                  />
+                </label>
+              </div>
+              {error ? <p className="text-red-500">{error}</p> : ""}
             </div>
-            {error ? <p className="red-text-100">{error}</p> : ""}
           </div>
-          
-          <div>
-            <div className="text-left">Please include any reference website links </div>
+
+          <div className="flex flex-col space-y-1 mt-12">
+            <div className="block text-2xl font-semibold mb-4">
+              Please include any reference website links:{" "}
+            </div>
             <BubbleInput />
           </div>
 
-          <div>
-            <div>Any specific content that you want the tool to make reference to?</div>
+          <div className="flex flex-col space-y-1 mt-10">
+            <div className="block text-2xl font-semibold mb-4">
+              Any specific content that you want the tool to make reference to?
+            </div>
             <Input />
           </div>
 
-          <div>
-            <div>Which tax field you would to identify for more details?</div>
-            <div></div>
-            <Checkbox /> Corporate Income Tax
-            <Checkbox /> GST  
-            <Checkbox /> Withholding Tax
-            <Checkbox /> Transfer Pricing
+          <div className="flex flex-col space-y-1 mt-10">
+            <div className="block text-2xl font-semibold mb-2">
+              Which tax field you would to identify for more details?
+            </div>
+            <div className="flex flex-row space-x-6 items-center">
+              <div className="flex items-center space-x-2">
+                <Checkbox />{" "}
+                <span className="font-normal text-lg text-black">
+                  Corporate Income Tax
+                </span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox />{" "}
+                <span className="font-normal text-lg text-black">GST</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox />{" "}
+                <span className="font-normal text-lg text-black">
+                  Withholding Tax
+                </span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox />{" "}
+                <span className="font-normal text-lg text-black">
+                  Transfer Pricing
+                </span>
+              </div>
+            </div>
           </div>
 
+          <div className="flex flex-col space-y-1 mt-10 mb-60">
+            <div className="flex items-center space-x-4">
+              <Button size="lg" className="w-[300px] bg-red-600 text-white" type="submit">
+                Generate Preview
+              </Button>
 
-          <p className="text-left">
-            <Button size="lg" className="mt-2" type="submit">
-              Generate Preview
-            </Button>
-            
-            {isLoading? (<div>Loading... <LoaderSpinner /> </div>): ""}
-            {!isLoading && generatedContent !== "" ? (<div><OpenAIResponse fullText={generatedContent} /></div>) : ""}
-          </p>
+              {isLoading ? (
+                <div>
+                  <span className="text-lg font-semibold">Loading...</span> <LoaderSpinner />{" "}
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            {!isLoading && generatedContent !== "" ? (
+              <div>
+                <OpenAIResponse fullText={generatedContent} />
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
         </form>
       </Form>
     </div>
