@@ -111,7 +111,7 @@ const UploadDoc = () => {
     },
   });
 
-  const [document, setDocument] = useState<Blob | File | null | undefined>(
+  const [fileDocument, setFileDocument] = useState<Blob | File | null | undefined>(
     null
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -124,14 +124,14 @@ const UploadDoc = () => {
   ) => {
     e.preventDefault();
     console.log("onsubmit");
-    if (!document) {
+    if (!fileDocument) {
       setError("Please upload the document first before submitting.");
       return;
     }
     setIsLoading(true);
     const formData = new FormData();
 
-    formData.append("pdf", document as Blob);
+    formData.append("pdf", fileDocument as Blob);
     formData.append("clientName", values.clientName);
     formData.append("bizUnit", values.bizUnit);
     formData.append("industryType", values.industryType);
@@ -312,7 +312,7 @@ const UploadDoc = () => {
             <div className="border h-40 m-4 border-dashed border-gray-300 rounded-lg">
               <div className="flex items-center justify-center h-full w-full">
                 <label
-                  htmlFor="document"
+                  htmlFor="fileDocument"
                   className="flex flex-col items-center justify-center w-full h-full rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
                 >
                   <div className="flex flex-col items-center justify-center h-full w-full">
@@ -328,13 +328,13 @@ const UploadDoc = () => {
                       or drag and drop
                     </p>
 
-                    {document  && document instanceof File ? (
+                    {fileDocument  && fileDocument instanceof File ? (
                       <div className="max-w-xs bg-white flex items-center rounded-md overflow-hidden outline outline-[1px] outline-zinc-200 divide-x divide-zinc-200">
                         <div className="px-3 py-2 h-full grid place-items-center">
                           <LucideFile className="h-4 w-4 text-blue-500" />
                         </div>
                         <div className="px-3 py-2 h-full text-sm truncate">
-                          {(document as File)?.name}
+                          {(fileDocument as File)?.name}
                         </div>
                       </div>
                     ) : (
@@ -343,9 +343,9 @@ const UploadDoc = () => {
                   </div>
                   <input
                     type="file"
-                    id="document"
+                    id="fileDocument"
                     className="relative block w-full h-full z-50 opacity-0"
-                    onChange={(e) => setDocument(e?.target?.files?.[0])}
+                    onChange={(e) => setFileDocument(e?.target?.files?.[0])}
                   />
                 </label>
               </div>
