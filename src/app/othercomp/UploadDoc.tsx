@@ -186,7 +186,7 @@ const UploadDoc = () => {
                         />
                       </FormControl>
                       <FormLabel className="font-normal text-lg text-black">
-                        Corporate income tax (CIT)/ Corporate tax advisory (CTA)
+                        Corporate Income Tax (CIT)
                       </FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">

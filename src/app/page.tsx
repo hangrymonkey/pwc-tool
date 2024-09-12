@@ -67,7 +67,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-3">
       <MaxWidthWrapper>
       <header className="text-black py-10 text-left">
-        <h1 className="text-4xl font-bold">Self-Review Tool for Tax</h1>
+        <h1 className="text-4xl font-bold">Tax Opportunities Review Tool</h1>
       </header>
       <UploadDoc />
       </MaxWidthWrapper>
